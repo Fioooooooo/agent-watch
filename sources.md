@@ -2,81 +2,81 @@
 
 > Agent Watch source policy V2
 
-## Scan model
+## 扫描模型
 
-Agent Watch uses a two-stage discovery model:
+Agent Watch 使用两阶段发现机制：
 
-1. **Mandatory source checklist** — deterministic recall floor. Every listed source group must be actively checked on every daily run through its official latest/release/changelog entry points. Keyword search is not a substitute for this step.
-2. **Open discovery** — after the checklist is complete, use broader search to discover important Agent / Harness / Coding Agent developments outside the fixed registry.
+1. **强制来源清单**：提供稳定的召回底线。每天必须逐项检查官方最新发布、版本说明、更新日志等入口，开放式搜索不能替代这一阶段。
+2. **开放发现**：完成强制清单后，再通过更广泛的搜索发现固定来源之外的重要 Agent、Harness、Coding Agent 进展。
 
-Filtering happens only after candidates from both stages have been collected.
+两个阶段先建立候选信息，再统一筛选。扫描可以细，但默认阅读内容必须短。
 
-The system must distinguish these states:
+每个强制来源必须明确区分：
 
-- `checked` — the source was successfully inspected; no qualifying new item may be present.
-- `failed` — the source could not be reliably inspected because of access, parsing, search, API, or other execution failure.
+- `checked`：已可靠完成检查；
+- `failed`：因访问、解析、搜索、API 或其他执行问题无法可靠完成检查。
 
-A failed source must never be interpreted as “no update”. If any mandatory source fails, the daily report must record `coverage incomplete` and identify the failed source(s).
+`failed` 绝不能解释为“无更新”。任一强制来源失败，日报必须标记 `coverage incomplete` 并指出失败来源。
 
-## Mandatory Agent / Harness checklist
+## 强制 Agent / Harness 来源清单
 
-Every daily run must inspect the newest official Blog / Engineering / Changelog / Release Notes / product update / GitHub Release entries for each source below and compare publication time with the previous daily report boundary.
+每天检查以下来源最新的官方 Blog、Engineering、Changelog、Release Notes、产品更新或 GitHub Releases，并与上次日报时间边界比较。
 
 ### OpenAI / Codex
-- OpenAI product / research release feed
-- OpenAI release notes / changelog
-- Codex official GitHub Releases
+- OpenAI 产品 / 研究发布入口
+- OpenAI Release Notes / Changelog
+- Codex 官方 GitHub Releases
 
 ### Anthropic / Claude Code
 - Anthropic News
-- Anthropic Engineering / research posts relevant to agents
-- Claude Code official changelog / GitHub Releases
+- Anthropic Engineering / 与 Agent 相关的研究文章
+- Claude Code 官方 Changelog / GitHub Releases
 
 ### Google / Gemini CLI
-- Google / Gemini official product and developer announcements relevant to agents
-- Gemini CLI official GitHub Releases
+- Google / Gemini 与 Agent 相关的官方产品及开发者发布
+- Gemini CLI 官方 GitHub Releases
 
 ### Augment / Auggie
-- Augment official Blog / Engineering posts
-- Auggie official release / changelog sources when available
+- Augment 官方 Blog / Engineering
+- Auggie 官方 Release / Changelog（如有）
 
 ### Qwen / Qwen Code
-- Qwen official Blog
-- Qwen Code official GitHub Releases / changelog
+- Qwen 官方 Blog
+- Qwen Code 官方 GitHub Releases / Changelog
 
 ### Cursor
-- Cursor official Changelog
-- Cursor official Blog / Engineering posts
+- Cursor 官方 Changelog
+- Cursor 官方 Blog / Engineering
 
 ### Cognition / Devin
-- Cognition official Blog / Engineering posts
-- Devin official product / changelog updates
+- Cognition 官方 Blog / Engineering
+- Devin 官方产品更新 / Changelog
 
 ### GitHub Copilot
-- GitHub Changelog entries for Copilot
-- GitHub Engineering / Blog posts exposing Copilot agent architecture or runtime changes
-- Copilot CLI official release sources when applicable
+- GitHub Changelog 中的 Copilot 更新
+- 公开 Copilot Agent 架构或运行机制的 GitHub Engineering / Blog
+- Copilot CLI 官方发布来源（适用时）
 
 ### Zed / ACP
-- Zed official Blog / release notes relevant to agents
-- ACP official specification / protocol updates
-- Zed / ACP official GitHub Releases when applicable
+- Zed 与 Agent 相关的官方 Blog / Release Notes
+- ACP 官方规范 / 协议更新
+- Zed / ACP 官方 GitHub Releases（适用时）
 
 ### Windsurf
-- Windsurf official Changelog
-- Windsurf official Blog / Engineering posts
+- Windsurf 官方 Changelog
+- Windsurf 官方 Blog / Engineering
 
 ### Manus
-- Manus official product / engineering / changelog sources
+- Manus 官方产品 / Engineering / Changelog
 
 ### Kimi / Kimi Code
-- Kimi official Blog
-- Kimi Code “What’s New” / release notes
-- Kimi Code CLI changelog / official releases
+- Kimi 官方 Blog
+- Kimi Code What's New / Release Notes
+- Kimi Code CLI Changelog / 官方 Releases
 
-## Mandatory model-release checklist
+## 强制模型发布清单
 
-Every daily run must also inspect the newest official model-release entries from:
+每天同时检查以下厂商最新的官方模型发布：
 
 - OpenAI
 - Anthropic
@@ -86,97 +86,90 @@ Every daily run must also inspect the newest official model-release entries from
 - Kimi / Moonshot AI
 - Z.ai / GLM
 
-Other model developers such as Meta are handled through open discovery unless they become a recurring high-value source.
+Meta 等其他模型厂商由开放发现阶段捕获，除非未来成为持续高价值来源。
 
-Only include model releases that materially affect at least one of: Coding, agentic capability, reasoning, tool use, computer use, long context, inference efficiency, or APIs / architecture that change Agent Harness design.
+只收录明显影响 Coding、Agent 能力、推理、工具调用、Computer Use、长上下文、推理效率，或会改变 Agent Harness 设计的 API / 架构能力。普通聊天模型、小参数衍生版本、Embedding、图像和语音模型默认排除，除非对 Agent 架构具有直接意义。
 
-Generic chat models, small derivative variants, embedding models, image models, and speech models are excluded by default unless they have direct Agent architecture significance.
+## Harness 技术观察清单
 
-## Harness observation checklist
-
-These are lower-frequency technical observation sources. They should still be checked regularly, but routine version churn is excluded:
+以下属于低频但重要的工程观察源，需要定期检查，但过滤普通版本噪音：
 
 - LangChain / LangGraph
 - Vercel AI SDK
 - OpenHands
 
-Include only updates that materially change Agent loops, harness architecture, context engineering, memory, checkpointing, durable execution, long-running agents, recovery, multi-agent systems, sandboxing, MCP, or tool runtime design.
+仅收录明显改变 Agent loop、Harness architecture、Context Engineering、memory、checkpoint、durable execution、long-running agents、recovery、multi-agent、sandbox、MCP 或 tool runtime 的内容。
 
-## Open discovery
+## 开放发现
 
-After all mandatory source groups have been checked, perform an open-ended search for high-value developments not captured by the registry. This stage is intended to discover:
+完成全部强制来源检查后，再进行开放式搜索，用于发现：
 
-- new Agent / Harness projects or vendors
-- important protocol work
-- deep engineering posts
-- major model or runtime releases outside the fixed source list
-- research with direct engineering implications
-- emerging techniques in context engineering, multi-agent orchestration, sandboxing, recovery, tool runtime, computer use, or long-running agents
+- 新的 Agent / Harness 项目或厂商
+- 重要协议工作
+- 深度工程文章
+- 固定清单之外的重大模型或运行时发布
+- 对工程实践有直接意义的研究
+- Context Engineering、多 Agent 编排、沙箱、恢复机制、工具运行时、Computer Use、长时间任务等新方法
 
-Open discovery supplements the checklist; it never replaces it.
+开放发现只能补充强制清单，不能替代它。
 
-## Candidate and filtering workflow
+## 候选与筛选流程
 
-For every mandatory source group:
+对每个强制来源：
 
-1. Open or retrieve its official latest / release / changelog listing.
-2. Inspect newly published entries since the previous daily-report boundary.
-3. Record title, publication time, official URL, and source.
-4. Add all plausible Agent / Harness / Coding Agent candidates to the candidate set.
-5. Only after all mandatory checks are complete, run open discovery.
-6. Deduplicate candidates by canonical URL / title / release identifier.
-7. Apply relevance and value filtering.
-8. Archive the final high-value evidence.
-9. Validate source coverage before declaring the run complete.
+1. 打开官方最新发布 / Release / Changelog 列表；
+2. 检查自上次日报之后的新条目；
+3. 记录标题、发布时间、官方链接和来源；
+4. 将可能相关的内容加入候选信息；
+5. 完成全部强制来源后执行开放发现；
+6. 按官方链接、标题或版本标识去重；
+7. 统一进行相关性和价值筛选；
+8. 保存完整技术材料；
+9. 检查来源覆盖情况。
 
-Do not use a sliding historical recovery window as a substitute for completing the mandatory checklist correctly.
+不要使用滑动历史补漏窗口替代强制清单的完整执行。
 
-## Coverage validation
+## 来源检查
 
-Each daily run must internally maintain a coverage checklist for all mandatory source groups.
+每次日报必须内部维护全部强制来源的检查状态。只有所有来源均为 `checked`，才能认为扫描完整；存在 `failed` 时必须明确记录 `coverage incomplete`。只有成功检查的来源才能得出“没有重要更新”的结论。
 
-A run is complete only when every mandatory group is either:
+## 高价值主题
 
-- `checked`, or
-- explicitly `failed` and reported as `coverage incomplete`.
+重点关注 Agent architecture、Agent harness、Coding Agent、Context Engineering、memory 与 context provenance、multi-agent、sandbox 与 permissions、MCP / ACP / A2A、Skills 与 tool use、Computer Use / browser use、evaluation、long-running agents、checkpoint 与 recovery、CLI / SDK / protocol、agent runtime。
 
-“Nothing important found” is a valid conclusion only for successfully checked sources.
+深度工程文章的权重高于普通功能公告，尤其关注真实 Agent loop、tool surface、session management、context management、token efficiency、sandbox、安全边界、任务恢复和多 Agent 编排中的设计取舍。
 
-## High-value topics
+## 日报的双层结构
 
-- Agent architecture
-- Agent harness
-- Coding agents
-- Context engineering
-- Memory and context provenance
-- Multi-agent systems
-- Sandbox and permissions
-- MCP / ACP / A2A
-- Skills and tool use
-- Computer use / browser use
-- Evaluation
-- Long-running agents
-- Checkpoint and recovery
-- CLI / SDK / protocols
-- Agent runtime
+日报同时承担两种职责，但必须分层呈现：
 
-Deep engineering articles receive higher weight than ordinary feature announcements, especially material exposing actual design decisions around agent loops, tool surfaces, session management, context management, token efficiency, sandboxing, security boundaries, recovery, and multi-agent orchestration.
+1. **每日摘要**：默认阅读入口。目标是在很短时间内回答“今天真正发生了什么变化”。不要按新闻条目机械罗列，而应将多个相关更新合并成 1～3 个技术变化或信号，并说明这些变化为什么值得关注。优先使用自然中文，只有 Agent、Harness、MCP、ACP 等直接使用英文更准确的行业术语才保留英文，避免无必要的中英混排。
+2. **完整材料**：保存来源、发布时间、版本、技术细节、官方原文和分析，作为后续周报、趋势判断和技术回溯的证据。完整性优先，不要求适合快速阅读。
 
-## Daily → Weekly responsibility
+扫描深度和收录标准不因为每日摘要变短而降低。每日摘要是对完整材料的二次提炼，不是删除材料。
 
-Daily reports are the primary evidence and discovery layer. They perform mandatory source enumeration, open discovery, candidate recall, filtering, coverage validation, and archival.
+每日摘要应优先回答：
 
-Weekly reports use archived daily reports as their primary evidence set and focus on cross-vendor synthesis and trend analysis. Weekly generation may revisit official sources to validate claims, fill an obvious gap, or capture a major release, but should not duplicate the entire daily scanning workload.
+- 今天形成了哪 1～3 个真正值得关注的技术变化？
+- 哪些不同来源其实是在说明同一个方向？
+- 哪一项值得读官方原文，哪一项只需持续观察？
+- 如果没有形成值得关注的变化，应直接说明，不为了完整性制造趋势。
 
-## Exclusions
+## 日报 → 周报职责
 
-- Marketing announcements
-- Fundraising
-- Customer case studies
-- Partnership announcements
-- SEO tutorials
-- Generic AI news
-- Routine UI changes
-- Model news unrelated to Agent / Harness engineering
+完整日报是事实与证据层；每日摘要是日常阅读层；技术周报负责跨天、跨厂商重新综合趋势。
 
-Coverage should never be expanded merely to fill a report. If a period has no meaningful updates, the report should say so.
+技术周报以本周完整日报为主要证据，也参考每日摘要中的信号，但不能简单拼接每日摘要。必要时可以回查官方来源验证判断、补明显缺口或重大事件，但不重复执行整套日报扫描。
+
+## 排除项
+
+- 市场宣传
+- 融资
+- 客户案例
+- 合作公告
+- SEO 教程
+- 泛 AI 新闻
+- 普通 UI 更新
+- 与 Agent / Harness 工程无关的模型资讯
+
+不能为了填满日报而扩大收录范围。没有重要更新或没有形成值得关注的新变化时，应明确说明。
