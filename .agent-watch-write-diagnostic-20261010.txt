@@ -1,3 +1,0 @@
-Agent Watch GitHub connector write diagnostic
-Date: 2026-10-10
-Purpose: verify direct main branch write permission. Temporary file; delete after verification.
